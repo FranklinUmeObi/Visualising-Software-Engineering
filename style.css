@@ -1,0 +1,210 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+pre,
+li,
+a {
+    font-family: 'Rubik', sans-serif;
+    color: black;
+}
+
+a {
+    color: #9796f0;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    background-color: #fbc7d499;
+}
+
+a:active {
+    text-decoration: underline;
+}
+
+body {
+    background: #ee9ca7;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffdde1, #ee9ca7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+
+.pageWrapper {
+    justify-content: center;
+}
+
+.banner {
+    height: 20vh;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    align-content: center;
+    vertical-align: middle;
+}
+
+.banner__title {
+    text-align: center;
+    font-size: 50px;
+    margin-top: -20px;
+}
+
+.waveContainer {
+    margin-top: -190px;
+    z-index: 10;
+    width: inherit;
+}
+
+.waveContainer2 {
+    margin-top: -10px;
+    z-index: 10;
+    width: inherit;
+}
+
+.page {
+    background: white;
+}
+
+
+.button {
+    width: 130%;
+    height: 100%;
+    text-align: center;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top: 3px solid #9796f0;
+}
+
+.footer {
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+    padding-bottom: 10px;
+}
+
+.footerLink {
+    color: #fff;
+}
+
+
+/* 
+
+.chartCarouselContainer{
+    align-items: center;
+    height: 60vh;
+    margin-top: 100px;
+} */
+
+.cell{
+    width: 80vw;
+    height: 400px;
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.abc1{
+    width: 80vw;
+    height: 500px;
+    background: red;
+}
+.abc2{
+    width: 80vw;
+    height: 500px;
+    background: green;
+}
+.abc3{
+    width: 80vw;
+    height: 500px;
+    background: blue;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*Animation code*/
+
+.hvr-grow-rotate {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 2s;
+    transition-duration: 2s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+}
+
+.hvr-grow-rotate:hover,
+.hvr-grow-rotate:focus,
+.hvr-grow-rotate:active {
+    -webkit-transform: scale(1.1) rotate(8deg);
+    transform: scale(1.1) rotate(8deg);
+}
+
+
+/* Back Pulse */
+
+@-webkit-keyframes hvr-back-pulse {
+    50% {
+        background-color: #fff;
+    }
+}
+
+@keyframes hvr-back-pulse {
+    50% {
+        background-color: #fff;
+    }
+}
+
+.hvr-back-pulse {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    overflow: hidden;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
+}
+
+.hvr-back-pulse:hover,
+.hvr-back-pulse:focus,
+.hvr-back-pulse:active {
+    -webkit-animation-name: hvr-back-pulse;
+    animation-name: hvr-back-pulse;
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-color: #fbc7d455;
+    background-color: #fbc7d455;
+    color: white;
+}
