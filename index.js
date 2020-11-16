@@ -7,8 +7,8 @@ main(urlMyRepos)
 
 async function main(url1) 
 {
-    let data = await GetMyRepos(url1).catch(error => console.error(error));
-    console.log(data);
+    let myReposData = await GetRequest(url1).catch(error => console.error(error));
+    console.log(myReposData);
 }
 
 
@@ -25,9 +25,9 @@ async function main(url1)
 //------------------------------------------------------------------------------
 //Get My Repos
 //------------------------------------------------------------------------------
-async function GetMyRepos(url) {
+async function GetRequest(url) {
   const response = await fetch(url);
   let data = await response.json();
-  console.log(response.status);
+  console.log("Get from "+ url + " is a "+response.status);
   return data;
 }
