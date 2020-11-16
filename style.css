@@ -80,14 +80,6 @@ body {
 }
 
 
-.button {
-    width: 130%;
-    height: 100%;
-    text-align: center;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    border-top: 3px solid #9796f0;
-}
 
 .footer {
     text-align: center;
@@ -121,82 +113,9 @@ body {
 }
 
 .abc{
-    
+    text-align: center;
+    align-items: center;
 }
 
 
-
-
-
-
-
-
-
-
-
-/*Animation code*/
-
-.hvr-grow-rotate {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-transition-duration: 2s;
-    transition-duration: 2s;
-    -webkit-transition-property: transform;
-    transition-property: transform;
-}
-
-.hvr-grow-rotate:hover,
-.hvr-grow-rotate:focus,
-.hvr-grow-rotate:active {
-    -webkit-transform: scale(1.1) rotate(8deg);
-    transform: scale(1.1) rotate(8deg);
-}
-
-
-/* Back Pulse */
-
-@-webkit-keyframes hvr-back-pulse {
-    50% {
-        background-color: #fff;
-    }
-}
-
-@keyframes hvr-back-pulse {
-    50% {
-        background-color: #fff;
-    }
-}
-
-.hvr-back-pulse {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: perspective(1px) translateZ(0);
-    transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    overflow: hidden;
-    -webkit-transition-duration: 0.5s;
-    transition-duration: 0.5s;
-    -webkit-transition-property: color, background-color;
-    transition-property: color, background-color;
-}
-
-.hvr-back-pulse:hover,
-.hvr-back-pulse:focus,
-.hvr-back-pulse:active {
-    -webkit-animation-name: hvr-back-pulse;
-    animation-name: hvr-back-pulse;
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-    -webkit-animation-delay: 1s;
-    animation-delay: 1s;
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
-    background-color: #fbc7d455;
-    background-color: #fbc7d455;
-    color: white;
-}
+/* Chart */
