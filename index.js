@@ -8,7 +8,7 @@ async function main()
 {
     //URL Endpoints
     let urlMyRepos = "https://api.github.com/users/franklinumeobi/repos";
-    let urlProject = "https://api.github.com/repos/facebook/react/contributors";
+    let urlProject = "https://api.github.com/users/facebook/repos";
 
     //let myReposData = await GetRequest(urlMyRepos).catch(error => console.error(error));
     //let num = myReposData.length
@@ -102,17 +102,23 @@ async function commitsPerRepo(userReposData)
 async function socialGraphParse(rawData, nodes, links)
 {
     console.log(rawData);
-    let arrPeople = [];
+     let arrRepos = [];
     for (let i = 0; i < rawData.length; i++) 
     {
         const element = rawData[i];
-        let a = {"index":i, "username":element.login,"contributions":element.contributions, "followersUrl":element.followers_url}
-        arrPeople.push(a)
+        let contributers = await GetRequest(`${element.contributors_url}`).catch(error => console.error(error))
+        let contributersName = []
+        for (let j = 0; j < contributers.length; j++) 
+        {
+            let name = contributers[j].login
+            contributersName.push(name)
+        }
+        let repo = {"index":i, "repo":element.name, "contributers":contributersName}
+        arrRepos.push(repo)
     }
-    console.log(arrPeople);
 
-    let followers = await GetRequest(`${arrPeople[0].followersUrl}`).catch(error => console.error(error))
-    console.log(followers);
+    console.log(arrRepos);
+
     
 }
 
