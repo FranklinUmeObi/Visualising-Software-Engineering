@@ -111,25 +111,17 @@ body {
 
 .cell{
     width: 80vw;
-    height: 400px;
+    height: 450px;
     display: inline-block;
     margin: 0 15px;
+    border: 4px solid #ee9ca7;
+    overflow: hidden;
+    background: #ffdde1;
+    border-radius: 20px;
 }
 
-.abc1{
-    width: 80vw;
-    height: 500px;
-    background: red;
-}
-.abc2{
-    width: 80vw;
-    height: 500px;
-    background: green;
-}
-.abc3{
-    width: 80vw;
-    height: 500px;
-    background: blue;
+.abc{
+    
 }
 
 
