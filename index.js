@@ -4,8 +4,17 @@
 //let input = "MunGell"
 let input = "henrym2"
 
+function handleInput()
+{
+  var x = document.getElementById("textBox").value;
+  ans = x
+  console.log(ans);
+  main(ans);
+}
 
-main(input);
+
+
+//main(input);
 
 
 
@@ -30,11 +39,11 @@ async function main(user) {
   let url = `https://api.github.com/users/${user}/repos`;
   let reposData = await GetRequest(url).catch(error => console.error(error));
   
-  //PieChart
-  commitsPerRepo(reposData, user)
-
   //Social Graph
   socialGraphParse(reposData);
+
+  //PieChart -- Make this Treemap
+  commitsPerRepo(reposData, user)
 }
 
 
@@ -106,6 +115,7 @@ async function socialGraphParse(rawData) {
 //------------------------------------------------------------------------------
 function D3_socialGraph(nodeData, linkData) {
   var svg = d3.select(".chart2");
+  svg.selectAll("*").remove()
   var width = svg.attr("width");
   var height = svg.attr("height");
   var color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -188,6 +198,7 @@ function D3_pieChartCommits(myData) {
     height = svg.attr("height"),
     radius = Math.min(width, height) / 2,
     g = svg
+      .selectAll("*").remove()
       .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 

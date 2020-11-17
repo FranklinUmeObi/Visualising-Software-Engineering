@@ -14,4 +14,4 @@ The first slide is a social graph. The graph contains blue nodes which represent
 
 ## Appendix
 
-![Social Graph](/assets/social%20graph2.png?raw=true "Title")
+![Social Graph](/assets/social%20graph2.png?raw=true "Contributers of the User MunGells repos")
