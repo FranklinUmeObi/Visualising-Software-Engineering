@@ -2,8 +2,17 @@
 An Assignment graphing Github API data through the use of d3.js
 
 ## How to install and run
-To run the project, clone the code and just open the index.html file.
-I decided to build this is plain HTML, CSS and JS for the ease of running the assignmrnt for my lecturers
+To run the project, you will need **Docker** installed.
+1. Clone the code in this repo
+
+2. Copy this code into your terminal
+```docker build -t frank_visualiser .```
+
+3. Copy this code into your terminal
+```docker run -d -p 80:80 frank_visualiser```
+
+4. open your localhost port 8080 eg ```localhost:8080```
+
 
 ## What the website consists of
 Upen finishing the assignment, a user should be able to input a the name of a github user/company (eg. Me or facebook) and see some data about that user visualised in the carousel
