@@ -2,20 +2,14 @@
 //let input = "facebook"
 //let input = "franklinumeobi"
 //let input = "MunGell"
-let input = "henrym2"
+//let input = "henrym2"
 
 function handleInput()
 {
   var x = document.getElementById("textBox").value;
-  ans = x
-  console.log(ans);
-  main(ans);
+  console.log(x);
+  main(x);
 }
-
-
-
-//main(input);
-
 
 
 //------------------------------------------------------------------------------
@@ -196,9 +190,11 @@ function D3_pieChartCommits(myData) {
   var svg = d3.select(".chart1"),
     width = svg.attr("width"),
     height = svg.attr("height"),
-    radius = Math.min(width, height) / 2,
+    radius = Math.min(width, height) / 2
+    
+    svg.selectAll("*").remove()
+    
     g = svg
-      .selectAll("*").remove()
       .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
