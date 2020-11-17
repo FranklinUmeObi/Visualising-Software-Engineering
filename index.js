@@ -1,34 +1,105 @@
 
-//let user = "facebook"
-let user = "franklinumeobi"
-//let user = "MunGell"
+//let input = "facebook"
+//let input = "franklinumeobi"
+//let input = "MunGell"
+let input = "henrym2"
 
-main();
+
+main(input);
+
+
+
+//------------------------------------------------------------------------------
+//Get Request
+//------------------------------------------------------------------------------
+async function GetRequest(url) 
+{
+  const response = await fetch(url);
+  let data = await response.json();
+  return data;
+}
+
+
 
 //------------------------------------------------------------------------------
 //Main
 //------------------------------------------------------------------------------
-async function main() {
+async function main(user) {
+  
   //URL Endpoints
-  let url = `https://api.github.com/users/${user}/repos`
-  //let urlProject = "https://api.github.com/users/facebook/repos";
+  let url = `https://api.github.com/users/${user}/repos`;
+  let reposData = await GetRequest(url).catch(error => console.error(error));
+  
+  //PieChart
+  commitsPerRepo(reposData, user)
 
-  let myReposData = await GetRequest(url).catch(error => console.error(error));
-  let commits = await commitsPerRepo(myReposData)
-  //console.log(commits); // array of objects {repoName, numCommits}
-  D3_pieChartCommits(commits)
-
-  let reactData = await GetRequest(url).catch((error) =>
-    console.error(error)
-  );
-  let nodes = [];
-  let links = [];
-  socialGraphParse(reactData, nodes, links);
-  console.log(nodes);
-  console.log(links);
-
-  //D3_socialGraph(nodes, links);
+  //Social Graph
+  socialGraphParse(reposData);
 }
+
+
+
+
+//------------------------------------------------------------------------------
+//Data Parse Functions
+//------------------------------------------------------------------------------
+
+async function commitsPerRepo(userReposData, user) {
+  let commits = [];
+  for (let i = 0; i < userReposData.length; i++) 
+  {
+    const repo = userReposData[i].name;
+    let a = await GetRequest(`https://api.github.com/repos/${user}/${repo}/commits`).catch((error) => console.error(error));
+    let b = { repo: repo, commits: a.length };
+    commits.push(b);
+  }
+  D3_pieChartCommits(commits)
+}
+
+
+async function socialGraphParse(rawData) {
+  let arrRepos = [];
+  let myNodes = []
+  let myLinks = []
+
+  for (let i = 0; i < rawData.length; i++) 
+  {
+    const element = rawData[i];
+    let contributers = await GetRequest(`${element.contributors_url}`).catch((error) => console.error(error));
+    let contributersName = [];
+    for (let j = 0; j < contributers.length; j++) 
+    {
+      let name = contributers[j].login;
+      contributersName.push(name);
+    }
+    let repo = { index: i, repo: element.name, contributers: contributersName };
+    arrRepos.push(repo);
+  }
+
+  for (let i = 0; i < arrRepos.length; i++) 
+  {
+    const repo = arrRepos[i];
+    let node = { id: repo.repo, group: 1 }; //add repo node
+    myNodes.push(node);
+    for (let j = 0; j < repo.contributers.length; j++) 
+    {
+      const contrib = repo.contributers[j];
+      let nodeC = { id: contrib, group: 2 }; //add contributer node
+      if (!myNodes.filter((e) => e.id == contrib).length > 0) 
+      {
+        myNodes.push(nodeC);
+      }
+      let linkC = { source: contrib, target: repo.repo }; //value: 1 };
+      myLinks.push(linkC);
+    }
+  }
+  D3_socialGraph(myNodes, myLinks);
+}
+
+
+
+
+
 
 //------------------------------------------------------------------------------
 //Charts
@@ -43,24 +114,6 @@ function D3_socialGraph(nodeData, linkData) {
     nodes: nodeData,
     links: linkData,
   };
-
-//Test Graph
-//   var graph = {
-//     nodes: [ 
-//         {id: "A", group: 1},
-//         {id: "B", group: 1},
-//         {id: "C", group: 2},
-//         {id: "D", group: 2},
-//         {id: "E", group: 3}
-// ],
-//     links: [ 
-//         {source: "A", target: "B"},
-//         {source: "C", target: "B"},
-//         {source: "D", target: "B"},
-//         {source: "E", target: "A"},
-//         {source: "C", target: "E"}
-// ]
-//   }
 
   var simulation = d3
     .forceSimulation(graph.nodes) // Force algorithm is applied to data.nodes
@@ -125,7 +178,6 @@ function D3_socialGraph(nodeData, linkData) {
 }
 
 function D3_pieChartCommits(myData) {
-  //var data = [2, 4, 8, 10];
   var data = [];
   myData.forEach((element) => {
     data.push(element.commits);
@@ -179,66 +231,3 @@ function D3_pieChartCommits(myData) {
     .attr("d", arc);
 }
 
-//------------------------------------------------------------------------------
-//Data Parse Functions
-//------------------------------------------------------------------------------
-async function commitsPerRepo(userReposData) {
-  let commits = [];
-  for (let i = 0; i < userReposData.length; i++) {
-    const repo = userReposData[i].name;
-    let a = await GetRequest(
-      `https://api.github.com/repos/${user}/${repo}/commits`
-    ).catch((error) => console.error(error));
-    let b = { repo: repo, commits: a.length };
-    commits.push(b);
-  }
-  return commits;
-}
-
-async function socialGraphParse(rawData, myNodes, myLinks) {
-  //console.log(rawData);
-  let arrRepos = [];
-  for (let i = 0; i < rawData.length; i++) {
-    const element = rawData[i];
-    let contributers = await GetRequest(
-      `${element.contributors_url}`
-    ).catch((error) => console.error(error));
-    let contributersName = [];
-    for (let j = 0; j < contributers.length; j++) {
-      let name = contributers[j].login;
-      contributersName.push(name);
-    }
-    let repo = { index: i, repo: element.name, contributers: contributersName };
-    arrRepos.push(repo);
-  }
-  //console.log(arrRepos);//array of repos and their contributers
-
-  for (let i = 0; i < arrRepos.length; i++) {
-    const repo = arrRepos[i];
-    let node = { id: repo.repo, group: 1 }; //add repo node
-    myNodes.push(node);
-    for (let j = 0; j < repo.contributers.length; j++) {
-      const contrib = repo.contributers[j];
-      let nodeC = { id: contrib, group: 2 }; //add contributer node
-      if (!myNodes.filter((e) => e.id == contrib).length > 0) {
-        myNodes.push(nodeC);
-      }
-      let linkC = { source: contrib, target: repo.repo }; //value: 1 };
-      myLinks.push(linkC);
-    }
-  }
-
-  nodes = myNodes;
-  links = myLinks;
-  D3_socialGraph(myNodes, myLinks);
-}
-
-//------------------------------------------------------------------------------
-//Get Request
-//------------------------------------------------------------------------------
-async function GetRequest(url) {
-  const response = await fetch(url);
-  let data = await response.json();
-  //console.log("Get from "+ url + " is a "+response.status);
-  return data;
-}
