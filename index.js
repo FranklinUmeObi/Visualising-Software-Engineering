@@ -1,3 +1,8 @@
+
+//let user = "facebook"
+ let user = "franklinumeobi"
+//let user = "CodinGame"
+
 main();
 
 //------------------------------------------------------------------------------
@@ -5,15 +10,15 @@ main();
 //------------------------------------------------------------------------------
 async function main() {
   //URL Endpoints
-  let urlMyRepos = "https://api.github.com/users/franklinumeobi/repos";
-  let urlProject = "https://api.github.com/users/facebook/repos";
+  let url = `https://api.github.com/users/${user}/repos`
+  //let urlProject = "https://api.github.com/users/facebook/repos";
 
-  let myReposData = await GetRequest(urlMyRepos).catch(error => console.error(error));
+  let myReposData = await GetRequest(url).catch(error => console.error(error));
   let commits = await commitsPerRepo(myReposData)
   //console.log(commits); // array of objects {repoName, numCommits}
   D3_pieChartCommits(commits)
 
-  let reactData = await GetRequest(urlProject).catch((error) =>
+  let reactData = await GetRequest(url).catch((error) =>
     console.error(error)
   );
   let nodes = [];
@@ -32,11 +37,30 @@ function D3_socialGraph(nodeData, linkData) {
   var svg = d3.select(".chart2");
   var width = svg.attr("width");
   var height = svg.attr("height");
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
 
   var graph = {
     nodes: nodeData,
     links: linkData,
   };
+
+//Test Graph
+//   var graph = {
+//     nodes: [ 
+//         {id: "A", group: 1},
+//         {id: "B", group: 1},
+//         {id: "C", group: 2},
+//         {id: "D", group: 2},
+//         {id: "E", group: 3}
+// ],
+//     links: [ 
+//         {source: "A", target: "B"},
+//         {source: "C", target: "B"},
+//         {source: "D", target: "B"},
+//         {source: "E", target: "A"},
+//         {source: "C", target: "E"}
+// ]
+//   }
 
   var simulation = d3
     .forceSimulation(graph.nodes) // Force algorithm is applied to data.nodes
@@ -68,7 +92,9 @@ function D3_socialGraph(nodeData, linkData) {
     .enter()
     .append("circle")
     .attr("r", 5)
-    .style("fill", "#fff")
+    .attr('fill', function(d,i){
+        return color(d.group);
+   })
     .style("border", "#000");
 
   // This function is run at each iteration of the force algorithm, updating the nodes position.
@@ -89,10 +115,10 @@ function D3_socialGraph(nodeData, linkData) {
 
     node
       .attr("cx", function (d) {
-        return d.x + 6;
+        return d.x + 3;
       })
       .attr("cy", function (d) {
-        return d.y - 6;
+        return d.y - 3;
       });
   }
   console.log("W");
@@ -161,7 +187,7 @@ async function commitsPerRepo(userReposData) {
   for (let i = 0; i < userReposData.length; i++) {
     const repo = userReposData[i].name;
     let a = await GetRequest(
-      `https://api.github.com/repos/franklinumeobi/${repo}/commits`
+      `https://api.github.com/repos/${user}/${repo}/commits`
     ).catch((error) => console.error(error));
     let b = { repo: repo, commits: a.length };
     commits.push(b);
@@ -216,92 +242,3 @@ async function GetRequest(url) {
   //console.log("Get from "+ url + " is a "+response.status);
   return data;
 }
-
-//Failed social graph
-/*
-function D3_socialGraph(nodeData, linkData) {
-  //chart = {
-  const links = linkData.map((d) => Object.create(d));
-  const nodes = nodeData.map((d) => Object.create(d));
-  height = 400;
-  width = 700;
-
-  const simulation = d3
-    .forceSimulation(nodes)
-    .force(
-      "link",
-      d3.forceLink(links).id((d) => d.id)
-    )
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
-
-  var svg = d3.select(".chart2").attr("viewBox", [0, 0, width, height]);
-
-  const link = svg
-    .append("g")
-    .attr("stroke", "#999")
-    .attr("stroke-opacity", 0.6)
-    .selectAll("line")
-    .data(links)
-   // .join("line")
-    .attr("stroke-width", (d) => Math.sqrt(d.value));
-
-  const node = svg
-    .append("g")
-    .attr("stroke", "#fff")
-    .attr("stroke-width", 1.5)
-    .selectAll("circle")
-    .data(nodes)
-   // .join("circle")
-    .attr("r", 5)
-    .attr("fill", color())
-    .call(drag(simulation));
-
-  node.append("title").text((d) => d.id);
-
-  simulation.on("tick", () => {
-    link
-      .attr("x1", (d) => d.source.x)
-      .attr("y1", (d) => d.source.y)
-      .attr("x2", (d) => d.target.x)
-      .attr("y2", (d) => d.target.y);
-
-    node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-  });
-
-  //invalidation.then(() => simulation.stop());
-
-  return svg.node();
-  //}
-}
-function color() {
-  const scale = d3.scaleOrdinal(d3.schemeCategory10);
-  return (d) => scale(d.group);
-}
-function drag(simulation) {
-  function dragstarted(event) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    event.subject.fx = event.subject.x;
-    event.subject.fy = event.subject.y;
-  }
-
-  function dragged(event) {
-    event.subject.fx = event.x;
-    event.subject.fy = event.y;
-  }
-
-  function dragended(event) {
-    if (!event.active) simulation.alphaTarget(0);
-    event.subject.fx = null;
-    event.subject.fy = null;
-  }
-
-  return d3
-    .drag()
-    .on("start", dragstarted)
-    .on("drag", dragged)
-    .on("end", dragended);
-}
-
-
-*/
