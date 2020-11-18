@@ -6,7 +6,6 @@ function handleInput()
   main(x);
 }
 
-
 //------------------------------------------------------------------------------
 //Get Request
 //------------------------------------------------------------------------------
@@ -27,13 +26,14 @@ async function main(user) {
   //URL Endpoints
   let url = `https://api.github.com/users/${user}/repos`;
   let reposData = await GetRequest(url).catch(error => console.error(error));
-  
+  console.log(reposData);
+ 
   //Social Graph
-  //socialGraphParse(reposData);
-  //PieChart -- Make this Treemap
+  socialGraphParse(reposData);
+  //PieChart
   commitsPerRepo(reposData, user)
   //TreeMap
-  //usersLanguages(reposData, user)
+  usersLanguages(reposData, user)
 }
 
 
@@ -65,7 +65,7 @@ async function usersLanguages(userReposData, user) {
     repoLangObj.push(a)
   }
 
-  console.log(repoLangObj);//array of repos lang objects
+  
 
   for (let i = 0; i < repoLangObj.length; i++) 
   {
@@ -75,12 +75,12 @@ async function usersLanguages(userReposData, user) {
         languages.add(keyArr[j])
       }
   }
-  console.log(languages);//array of languages used
+  
 
   let langSize = new Map()
   for (let value of languages) langSize.set(value, 0);   // init map
 
-  console.log(langSize);//array of languages used
+ 
 
   for (let i = 0; i < repoLangObj.length; i++) 
   {
@@ -94,7 +94,6 @@ async function usersLanguages(userReposData, user) {
     }
 
   }
-  console.log(langSize);//array of languages used
 
   let children = []
   for (const [key, value] of langSize.entries()) 
@@ -108,7 +107,6 @@ async function usersLanguages(userReposData, user) {
     children.push(node)
 
   }
-  console.log(children);
 
   D3_TreeMap(children);
 }
@@ -234,7 +232,6 @@ function D3_socialGraph(nodeData, linkData) {
         return d.y - 3;
       });
   }
-  console.log("W");
 }
 
 function D3_pieChartCommits(myData) {
@@ -321,8 +318,6 @@ arcs
     var posC = outerArc.centroid(d); // Label position = almost the same as posB
     var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
     posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
-    //posB[1] = posC[1]*0.9
-    console.log(posC);
     return [posA, posB, posC]
   })
 
