@@ -124,13 +124,15 @@ async function socialGraphParse(rawData) {
     const element = rawData[i];
     let contributers = await GetRequest(`${element.contributors_url}`).catch((error) => console.error(error));
     let contributersName = [];
-    for (let j = 0; j < contributers.length; j++) 
+    if (contributers !== undefined) {
+      for (let j = 0; j < contributers.length; j++) 
     {
       let name = contributers[j].login;
       contributersName.push(name);
     }
     let repo = { index: i, repo: element.name, contributers: contributersName };
     arrRepos.push(repo);
+    }
   }
 
   for (let i = 0; i < arrRepos.length; i++) 
