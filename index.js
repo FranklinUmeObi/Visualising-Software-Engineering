@@ -2,7 +2,6 @@
 function handleInput()
 {
   var x = document.getElementById("textBox").value;
-  console.log(x);
   main(x);
 }
 
@@ -26,7 +25,6 @@ async function main(user) {
   //URL Endpoints
   let url = `https://api.github.com/users/${user}/repos`;
   let reposData = await GetRequest(url).catch(error => console.error(error));
-  console.log(reposData);
  
   //Social Graph
   socialGraphParse(reposData);
@@ -96,6 +94,7 @@ async function usersLanguages(userReposData, user) {
   }
 
   let children = []
+  let values = []
   for (const [key, value] of langSize.entries()) 
   {
     let node = {
@@ -104,8 +103,14 @@ async function usersLanguages(userReposData, user) {
       "value":value,
       "colname":"languages"
     }
+    values.push(value)
     children.push(node)
 
+  }
+  let big = Math.max(...values)
+
+  for (const e of children) {
+    e.value = scale(e.value, 0, big, 1, 500)
   }
 
   D3_TreeMap(children);
@@ -327,7 +332,7 @@ arcs
 .data(pie(data))
 .enter()
 .append('text')
-  .text( function(d,i) { console.log(data2[i]) ; return data2[i] } )
+  .text( function(d,i) { return data2[i] } )
   .attr('transform', function(d) 
   {
       var pos = outerArc.centroid(d);
@@ -346,6 +351,8 @@ arcs
 
 
 function D3_TreeMap(childrenData){
+
+
   var svg = d3.select(".chart3");
   svg.selectAll("*").remove()
   var width = svg.attr("width");
@@ -388,8 +395,16 @@ function D3_TreeMap(childrenData){
     .enter()
     .append("text")
       .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
-      .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
+      .attr("y", function(d){ return d.y0+15})    // +20 to adjust position (lower)
       .text(function(d){ return d.data.name })
       .attr("font-size", "15px")
       .attr("fill", "black")
+}
+
+
+//Other Functions
+
+
+const scale = (num, in_min, in_max, out_min, out_max) => {
+  return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
