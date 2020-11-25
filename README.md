@@ -34,5 +34,5 @@ The last slide is a tree map. The tree map visualises the number of bytes of eac
 ## Appendix
 
 ![Social Graph](/assets/social%20graph2.png?raw=true "Contributers of the User MunGells repos")
-![Pie Chart](/assets/social%pie.PNG?raw=true "Commits in the repos of the User Branflake6 repos")
-![Tree Map](/assets/social%treemap.PNG?raw=true "Languages used by the User Branflake6")
+![Pie Chart](/assets/pie.PNG?raw=true "Commits in the repos of the User Branflake6 repos")
+![Tree Map](/assets/treemap.PNG?raw=true "Languages used by the User Branflake6")
