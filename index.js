@@ -1,4 +1,16 @@
 
+//const username = "franklinumeobi"
+const token = "0bb8543c32968451dbab4b065a7a3593118370d7"
+
+const headers = {
+  "Authorization" : "Token " + token
+}
+const options= {
+  "method" : "GET",
+  "headers" : headers
+}
+
+
 function handleInput()
 {
   var x = document.getElementById("textBox").value;
@@ -10,7 +22,7 @@ function handleInput()
 //------------------------------------------------------------------------------
 async function GetRequest(url) 
 {
-  const response = await fetch(url);
+  const response = await fetch(url,options);
   let data = await response.json();
   return data;
 }
@@ -21,6 +33,7 @@ async function GetRequest(url)
 //Main
 //------------------------------------------------------------------------------
 async function main(user) {
+
   
   //URL Endpoints
   let url = `https://api.github.com/users/${user}/repos`;
