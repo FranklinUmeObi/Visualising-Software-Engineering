@@ -1,14 +1,11 @@
 
-//const username = "franklinumeobi"
-const token = "0bb8543c32968451dbab4b065a7a3593118370d7"
-
-const headers = {
-  "Authorization" : "Token " + token
-}
-const options= {
-  "method" : "GET",
-  "headers" : headers
-}
+// const headers = {
+//   "Authorization" : "Token " + token
+// }
+// const options= {
+//   "method" : "GET",
+//   "headers" : headers
+// }
 
 
 function handleInput()
@@ -22,7 +19,7 @@ function handleInput()
 //------------------------------------------------------------------------------
 async function GetRequest(url) 
 {
-  const response = await fetch(url,options);
+  const response = await fetch(url);
   let data = await response.json();
   return data;
 }
