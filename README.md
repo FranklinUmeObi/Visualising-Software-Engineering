@@ -2,7 +2,7 @@
 An Assignment graphing Github API data through the use of d3.js
 
 ## Live Demonstartion
-If you want to quickly yest the visuailser visit:
+If you want to quickly test the visuailser visit:
 [Frank's Visualiser](https://franklinumeobi.com/Projects/GithubMetricsVisualised/index.html)
 
 ## How to install and run
